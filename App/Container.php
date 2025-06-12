@@ -22,7 +22,7 @@ final class Container
     {
         // se a referência existir ela é retornada
         if ($this->has($id)) {
-            return $this->instances[$id]();
+            return $this->instances[$id]($this);
         }
 
         // se a referência não existir no container então significa que foi passado uma classe para ser
@@ -57,7 +57,7 @@ final class Container
             static $resolvedInstance;
 
             if (null === $resolvedInstance) {
-                $resolvedInstance = $closure();
+                $resolvedInstance = $closure($this);
             }
 
             return $resolvedInstance;
