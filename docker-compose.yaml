@@ -1,0 +1,28 @@
+services:
+ www:
+  build: .
+  ports: 
+   - "8080:80"
+  volumes:
+   - .:/var/www/html/
+  links:
+   - db
+ db:
+  image: mysql:5.7
+  ports: 
+   - "3315:3306"
+  command: --default-authentication-plugin=mysql_native_password --sql_mode="ALLOW_INVALID_DATES,NO_ZERO_DATE"
+  environment:
+   MYSQL_ROOT_PASSWORD: root
+ phpmyadmin:
+  image: phpmyadmin/phpmyadmin
+  links: 
+   - db:db
+  ports:
+   - 8015:80
+  environment:
+   MYSQL_USER: root
+   MYSQL_ROOT_PASSWORD: root
+   UPLOAD_LIMIT: 2000M
+   MAX_EXECUTION_TIME: 0
+   MAX_INPUT_TIME: 0 
